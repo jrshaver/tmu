@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Too much URL</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+
+    body {
+        height: 100%;
+    }
+
+    form {
+        margin: 20% 0 5%;
+        text-align: center;
+    }
+
+    .success {
+        text-align: center;
+    }
+
+    .success div {
+        margin: auto;
+    }
+
+    .success input {
+        text-align: center;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <form method="post" action="/api" class="input-group input-group-lg">
+        <label for="originalUrl" class="input-group-addon">Current URL:</label>
+        <input type="text" id="originalUrl" name="originalUrl" class="form-control" required>
+        <input type="hidden" name="newUrl" value="back">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Generate Shorter URL</button>
+        </span>
+    </form>
+    <% if (errorMessage) { %>
+        <div class="error"><%= errorMessage %></div>
+    <% } %>
+
+
+    <% if (query) { %>
+        <div class="success">
+            <p class="lead">a new shorter URL for you:</p>
+            <div onclick="copyToClip()" class="input-group input-group-lg">
+                <input class="form-control" value="<%= query %>" readonly id="newUrl">
+        
+                <div class="text-muted" id="clicked">click to copy</div>
+            </div>
+        </div>
+    <% } %>
+
+</div>
+
+<script>
+    function copyToClip() {
+        const copyText = document.getElementById("newUrl");
+        copyText.select();
+        document.execCommand("Copy");
+
+        const clicked = document.getElementById("clicked");
+        clicked.innerText = "copied to clipboard";
+        
+        function original() {
+            clicked.innerText = "click to copy";
+        }
+        setTimeout(original, 2000);
+    }
+</script>
+
+</body>
+</html>
